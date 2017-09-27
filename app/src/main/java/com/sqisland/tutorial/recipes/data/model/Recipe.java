@@ -1,8 +1,6 @@
 package com.sqisland.tutorial.recipes.data.model;
 
 import android.annotation.SuppressLint;
-import android.os.Build;
-import android.support.annotation.RequiresApi;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -28,7 +26,6 @@ public class Recipe {
         this.description = description;
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
     public static Recipe readFromStream(InputStream inputStream) {
         BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
 
@@ -43,7 +40,9 @@ public class Recipe {
 
     @SuppressLint("NewApi")
     private static String getDescription(List<String> lines) {
-        String description = lines.stream().skip(2).collect(Collectors.joining("\n"));
+        String description = lines.stream()
+                .filter(s -> !s.startsWith(ID_PREFIX) && !s.startsWith(TITLE_PREFIX))
+                .collect(Collectors.joining("\n"));
         return description;
     }
 

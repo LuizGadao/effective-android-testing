@@ -1,10 +1,14 @@
 package com.sqisland.tutorial.recipes.ui.main.recipe;
 
 import android.content.Intent;
+import android.support.test.InstrumentationRegistry;
 import android.support.test.rule.ActivityTestRule;
 
 import com.sqisland.tutorial.recipes.R;
+import com.sqisland.tutorial.recipes.data.local.InMemoryFavorites;
+import com.sqisland.tutorial.recipes.injection.TestRecipeApplication;
 
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
@@ -25,6 +29,15 @@ public class RecipeActivityTest {
     @Rule
     public ActivityTestRule<RecipeActivity> mActivityRule = new ActivityTestRule<RecipeActivity>(
             RecipeActivity.class,true, false);
+
+    private InMemoryFavorites mFavorites;
+
+    @Before
+    public void clearFavorites(){
+        TestRecipeApplication app = (TestRecipeApplication) InstrumentationRegistry.getTargetContext().getApplicationContext();
+        mFavorites = (InMemoryFavorites) app.getFavorites();
+        mFavorites.clear();
+    }
 
     @Test
     public void recipeNotFound() throws Exception {

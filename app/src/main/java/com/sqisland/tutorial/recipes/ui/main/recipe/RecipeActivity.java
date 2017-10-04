@@ -6,9 +6,10 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.sqisland.tutorial.recipes.R;
+import com.sqisland.tutorial.recipes.data.local.Favorites;
 import com.sqisland.tutorial.recipes.data.local.RecipeStore;
-import com.sqisland.tutorial.recipes.data.local.SharePreferenceFavorites;
 import com.sqisland.tutorial.recipes.data.model.Recipe;
+import com.sqisland.tutorial.recipes.injection.RecipeApplication;
 
 public class RecipeActivity extends AppCompatActivity {
 
@@ -33,12 +34,13 @@ public class RecipeActivity extends AppCompatActivity {
             return;
         }
 
-        SharePreferenceFavorites mPrefsFavorite = new SharePreferenceFavorites(this);
+        RecipeApplication app = (RecipeApplication) getApplication();
+        Favorites mPrefsFavorite = app.getFavorites();
 
         tvTitle.setText(recipe.title);
-        tvTitle.setSelected(mPrefsFavorite.getId(id));
+        tvTitle.setSelected(mPrefsFavorite.get(id));
         tvTitle.setOnClickListener((view) -> {
-            tvTitle.setSelected(mPrefsFavorite.toglle(id));
+            tvTitle.setSelected(mPrefsFavorite.toggle(id));
         });
 
         tvDescription.setText(recipe.description);

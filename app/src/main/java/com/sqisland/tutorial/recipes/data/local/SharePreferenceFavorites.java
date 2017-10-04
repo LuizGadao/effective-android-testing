@@ -7,14 +7,15 @@ import android.content.SharedPreferences;
  * Created by Luiz on 03/10/17.
  */
 
-public class SharePreferenceFavorites {
+public class SharePreferenceFavorites implements Favorites {
     SharedPreferences mPrefs;
 
     public SharePreferenceFavorites(Context context) {
         mPrefs = context.getSharedPreferences("my_prefs", Context.MODE_PRIVATE);
     }
 
-    public boolean getId(String id){
+    @Override
+    public boolean get(String id){
         return mPrefs.getBoolean(id, false);
     }
 
@@ -29,8 +30,9 @@ public class SharePreferenceFavorites {
         edit.apply();
     }
 
-    public boolean toglle(String id){
-        boolean favorite = getId(id);
+    @Override
+    public boolean toggle(String id){
+        boolean favorite = get(id);
         put(id, !favorite);
         return !favorite;
     }

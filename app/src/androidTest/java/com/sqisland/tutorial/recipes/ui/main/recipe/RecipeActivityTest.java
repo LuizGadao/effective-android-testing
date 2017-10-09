@@ -26,6 +26,8 @@ import static org.hamcrest.core.IsNot.not;
  */
 public class RecipeActivityTest {
 
+    public static final String CREAMED_CARROTS = "creamed_carrots";
+
     @Rule
     public ActivityTestRule<RecipeActivity> mActivityRule = new ActivityTestRule<RecipeActivity>(
             RecipeActivity.class,true, false);
@@ -51,10 +53,7 @@ public class RecipeActivityTest {
 
     @Test
     public void clickToFavorite() throws Exception {
-        Intent intent = new Intent();
-        intent.putExtra(RecipeActivity.KEY_ID, "creamed_carrots");
-
-        mActivityRule.launchActivity(intent);
+        launchRecipe(CREAMED_CARROTS);
 
         onView(withId(R.id.tv_title))
                 .check(matches(isDisplayed()));
@@ -64,5 +63,20 @@ public class RecipeActivityTest {
                 .check(matches(not(isSelected())))
                 .perform(click())
                 .check(matches(isSelected()));
+    }
+
+    @Test
+    public void alreadyFavorite() throws Exception {
+        mFavorites.put(CREAMED_CARROTS, true);
+        launchRecipe(CREAMED_CARROTS);
+        onView(withId(R.id.tv_title))
+                .check(matches(isSelected()));
+    }
+
+    private void launchRecipe(String id) {
+        Intent intent = new Intent();
+        intent.putExtra(RecipeActivity.KEY_ID, id);
+
+        mActivityRule.launchActivity(intent);
     }
 }

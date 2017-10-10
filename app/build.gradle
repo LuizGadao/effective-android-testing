@@ -29,6 +29,7 @@ android {
 def SupportLibrary = '26.1.0'
 def ConstraintLayout = '1.0.2'
 def JUNIT = '4.12'
+def MOCKITO = '2.8.47'
 def EspressoCore = '3.0.1'
 
 dependencies {
@@ -39,6 +40,9 @@ dependencies {
     implementation "com.android.support:design:${SupportLibrary}"
 
     testImplementation "junit:junit:${JUNIT}"
+    testImplementation "org.mockito:mockito-core:${MOCKITO}"
+
+
     androidTestImplementation("com.android.support.test.espresso:espresso-core:${EspressoCore}", {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
